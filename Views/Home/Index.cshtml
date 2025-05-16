@@ -1,0 +1,31 @@
+﻿@model IEnumerable<AcademIQ.Models.Courses>
+
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+else
+{
+    <div class="course-grid">
+        @foreach (var course in Model)
+        {
+            <div class="course">
+                <!-- Colored Top Section -->
+                <div class="course-header" style="background-color: @course.Color;">
+                    <h3>@course.CourseName</h3>
+                </div>
+
+                <!-- White Bottom Section -->
+                <div class="course-content">
+                    <p>@course.Description</p>
+                    <p><strong>Start:</strong> @course.StartDate.ToShortDateString()</p>
+                    <p><strong>End:</strong> @course.EndDate.ToShortDateString()</p>
+                    <a href="@Url.Action("CoursePage", "Courses", new { id = course.CourseId })" class="course-button">View Course</a>
+
+
+
+                </div>
+            </div>
+        }
+    </div>
+}

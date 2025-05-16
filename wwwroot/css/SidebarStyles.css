@@ -1,0 +1,68 @@
+﻿/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    top: 58px; /* Position sidebar below the navbar */
+    left: 0;
+    width: 200px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Make the sidebar scrollable */
+    z-index: 999; /* Ensure it sits on top */
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .sidebar-header h3 {
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 0;
+    }
+
+.sidebar-menu .nav-item {
+    margin-bottom: 15px;
+}
+
+.sidebar-menu .nav-link {
+    font-size: 1.1em;
+    color: #333;
+    text-decoration: none;
+}
+
+    .sidebar-menu .nav-link:hover {
+        background-color: #e8f0fe;
+        border-radius: 5px;
+    }
+
+/* Main Content */
+.main-content {
+    margin-left: 250px; /* Keep pushing right */
+    padding: 20px;
+    padding-top: 80px; /* Enough space for the fixed navbar */
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto;
+}
+
+html, body {
+    height: 100%; /* Ensures the height is at least 100% of the viewport */
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Use flex layout for the body */
+}
+
+/* Optional: Make the sidebar scrollable */
+.sidebar-menu {
+    overflow-y: auto;
+    max-height: 80vh; /* Adjust the max height for scrollability */
+}

@@ -1,0 +1,139 @@
+﻿@model AcademIQ.Models.Courses
+
+@{
+    ViewData["Title"] = Model.CourseName;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/CoursePageSidebarStyles.css" asp-append-version="true" />
+</head>
+<body>
+
+    <div style="position: relative; height: 300px; overflow: hidden;">
+        <img src="@Url.Content($"~/{Model.BackgroundImageUrl}")" alt="Course Background" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;">
+        <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 3rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
+            @Model.CourseName
+        </h1>
+    </div>
+
+    <div class="container mt-4">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h2>Welcome to @Model.CourseName!</h2>
+             <button id="toggleSidebarButton" class="btn btn-info">Show Participants</button> 
+        </div>
+    </div>
+
+    <p>@Model.Description</p>
+
+    <!-- Display Announcements -->
+    <div class="course-announcements">
+        <h3>Announcements</h3>
+
+        @if (Model.Announcements != null && Model.Announcements.Any())
+        {
+            <div class="row">
+                @foreach (var announcement in Model.Announcements)
+                {
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">@announcement.Title</h5>
+                                <p class="card-text">@announcement.Description</p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Posted by @announcement.Teacher?.Name on @announcement.CreatedDate.ToString("MMMM dd, yyyy")
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No announcements available.</p>
+        }
+    </div>
+
+    <!-- Button to Show/Hide Announcement Form -->
+    <button id="toggleAnnouncementForm" class="btn btn-secondary">
+        Create New Announcement
+    </button>
+
+    <!-- Announcement Form (Initially Hidden) -->
+    <div id="announcementForm" style="display: none; margin-top: 20px;">
+        <h3>Create New Announcement</h3>
+        <form id="announcementFormId">
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <input type="text" id="Title" name="Title" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <textarea id="Description" name="Description" class="form-control" required></textarea>
+            </div>
+
+            <!-- Dropdown for selecting teacher -->
+            @if (ViewData["Teachers"] is List<AcademIQ.Models.Teachers> teachers && teachers.Any())
+            {
+                <div class="form-group">
+                    <label for="TeacherId">Select Teacher</label>
+                    <select class="form-control" id="TeacherId" name="TeacherId" required>
+                        <option value="">-- Select Teacher --</option>
+                        @foreach (var teacher in teachers)
+                        {
+                            <option value="@teacher.Id">@teacher.Name</option>
+                        }
+                    </select>
+                </div>
+            }
+            else
+            {
+                <p>No teachers available.</p>
+            }
+
+            <!-- Hidden CourseId -->
+            <input type="hidden" name="CourseId" value="@Model.CourseId" />
+
+            <button type="submit" class="btn btn-primary">Post Announcement</button>
+        </form>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h4>Participants</h4>
+        </div>
+
+        <h5>Teacher</h5>
+        <p>@Model.Teacher.Name</p>
+
+        <h5>Students</h5>
+        @{
+            var sideStudents = ViewData["EnrolledStudents"] as List<AcademIQ.Models.Students>;
+        }
+        @if (sideStudents != null && sideStudents.Any())
+        {
+            <ul>
+                @foreach (var student in sideStudents)
+                {
+                    <li>@student.Name</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No students enrolled yet.</p>
+        }
+    </div>
+
+    <!-- Link to the JavaScript -->
+    @section Scripts {
+        <script src="~/js/AnnouncementButton.js"></script>
+        <script src="~/js/CoursePageSideBar.js"></script>
+    }
+
+</body>
+</html>
