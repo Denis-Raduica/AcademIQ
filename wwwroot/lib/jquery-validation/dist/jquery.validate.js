@@ -686,7 +686,7 @@ $.extend( $.validator, {
 		},
 
 		clean: function( selector ) {
-			return $( selector )[ 0 ];
+			return jQuery.find(selector)[ 0 ];
 		},
 
 		errors: function() {
